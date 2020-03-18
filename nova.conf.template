@@ -1,0 +1,48 @@
+[DEFAULT]
+my_ip = {{ CONTROLLER_IP }}
+state_path = /var/lib/nova
+enabled_apis = osapi_compute,metadata
+log_dir = /var/log/nova
+transport_url = rabbit://{{RABBITMQ_USER}}:{{RABBITMQ_PASSWORD}}@openstack-mq
+
+[api]
+auth_strategy = keystone
+
+[glance]
+api_servers = http://openstack-glance:9292
+
+[oslo_concurrency]
+lock_path = /tmp
+
+[api_database]
+connection = mysql+pymysql://{{ NOVA_USER }}:{{ NOVA_PASSWORD }}@{{ OPENSTACK_DBHOST or 'openstack-db' }}/nova_api
+
+[database]
+connection = mysql+pymysql://{{ NOVA_USER }}:{{ NOVA_PASSWORD }}@{{ OPENSTACK_DBHOST or 'openstack-db' }}/nova
+
+[keystone_authtoken]
+www_authenticate_uri = http://openstack-keystone:5000
+auth_url = http://openstack-keystone:5000
+memcached_servers = openstack-memcached:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = {{ NOVA_USER }}
+password = {{ NOVA_PASSWORD }}
+
+[placement]
+auth_url = http://openstack-keystone:5000
+os_region_name = RegionOne
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = {{ NOVA_USER }}
+password = {{ NOVA_PASSWORD }}
+
+[placement_database]
+connection = mysql+pymysql://{{NOVA_USER}}:{{NOVA_PASSWORD}}@{{ OPENSTACK_DBHOST or 'openstack-db' }}/nova_placement
+
+[wsgi]
+api_paste_config = /etc/nova/api-paste.ini
