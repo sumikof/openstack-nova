@@ -11,6 +11,8 @@ RUN apt update -y && apt -y install \
     && apt clean 
 
 ADD nova.conf.template /template
+ADD nova-compute.conf.template /template
+ADD render-compute /usr/local/bin
 
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]

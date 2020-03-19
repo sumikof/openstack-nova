@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export OPENSTACK_COMPUTE_IP=$1
+render nova-compute.conf.template /tmp/nova-compute.conf
+cat /tmp/nova-compute.conf

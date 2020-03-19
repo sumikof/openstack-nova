@@ -1,0 +1,47 @@
+[DEFAULT]
+my_ip = {{ OPENSTACK_COMPUTE_IP }}
+
+state_path = /var/lib/nova
+enabled_apis = osapi_compute,metadata
+log_dir = /var/log/nova
+transport_url = rabbit://{{RABBITMQ_USER}}:{{RABBITMQ_PASSWORD}}@{{ OPENSTACK_API or 'openstack-mq'}}
+
+[api]
+auth_strategy = keystone
+
+[vnc]
+enabled = True
+server_listen = 0.0.0.0
+server_proxyclient_address = {{ OPENSTACK_COMPUTE_IP }}
+novncproxy_base_url = http://openstack-api:6080/vnc_auto.html
+
+[glance]
+api_servers = http://{{ OPENSTACK_API or 'openstack-glance' }}:9292
+
+[oslo_concurrency]
+lock_path = /tmp
+
+[keystone_authtoken]
+www_authenticate_uri = http://{{ OPENSTACK_API or 'openstack-keystone' }}:5000
+auth_url = http://{{ OPENSTACK_API or 'openstack-keystone' }}:5000
+memcached_servers = {{ OPENSTACK_API or 'openstack-memcached' }}:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = {{ NOVA_USER }}
+password = {{ NOVA_PASSWORD }}
+
+[placement]
+auth_url = http://{{ OPENSTACK_API or 'openstack-keystone' }}:5000
+os_region_name = RegionOne
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = {{ NOVA_USER }}
+password = {{ NOVA_PASSWORD }}
+
+[wsgi]
+api_paste_config = /etc/nova/api-paste.ini
+
