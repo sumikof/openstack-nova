@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
 
-render nova.conf.template /etc/nova/nova.conf
+render nova.conf.template -o /etc/nova/nova.conf
 
 exec "$@"

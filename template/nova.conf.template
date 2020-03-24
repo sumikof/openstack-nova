@@ -5,6 +5,10 @@ enabled_apis = osapi_compute,metadata
 log_dir = /var/log/nova
 transport_url = rabbit://{{RABBITMQ_USER}}:{{RABBITMQ_PASSWORD}}@openstack-mq
 
+use_neutron = True
+linuxnet_interface_driver = nova.network.linux_net.LinuxBridgeInterfaceDriver
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
 [api]
 auth_strategy = keystone
 
@@ -46,3 +50,15 @@ connection = mysql+pymysql://{{NOVA_USER}}:{{NOVA_PASSWORD}}@{{ OPENSTACK_DBHOST
 
 [wsgi]
 api_paste_config = /etc/nova/api-paste.ini
+
+[neutron]
+auth_url = http://openstack-keystone:5000
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = {{ NEUTRON_USER }}
+password = {{ NEUTRON_PASSWORD }}
+service_metadata_proxy = True
+metadata_proxy_shared_secret = {{ META_SECRET or 'metadata_secret' }}

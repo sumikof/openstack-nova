@@ -10,9 +10,8 @@ RUN apt update -y && apt -y install \
        python3-novaclient \
     && apt clean 
 
-ADD nova.conf.template /template
-ADD nova-compute.conf.template /template
-ADD render-compute /usr/local/bin
+ADD template/nova.conf.template /template
+ADD template/nova-compute.conf.template /template
 
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
