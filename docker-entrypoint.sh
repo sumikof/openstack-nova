@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -x
 
 render nova.conf.template -o /etc/nova/nova.conf
 
